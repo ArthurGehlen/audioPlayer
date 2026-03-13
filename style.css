@@ -1,0 +1,25 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #111;
+  color: #fff;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30rem;
+  padding: 2rem;
+  height: 10rem;
+  background-color: hsla(0, 0%, 90%, 0.2);
+  margin: 2rem auto;
+}
