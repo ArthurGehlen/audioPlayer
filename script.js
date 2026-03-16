@@ -1,32 +1,91 @@
-const timestamp = document.getElementById("timestamp");
-const progress_bar_wrapper = document.getElementById("progress_bar_wrapper");
-const play_btn = document.getElementById("play_btn");
-const progress_bar = document.getElementById("progress_bar");
+import {
+  PAUSE_ICON_HTML,
+  PLAY_ICON_HTML,
+  REPEAT_ICON_HTML,
+  MUSIC_MAX_INDEX,
+  MUSIC_MIN_INDEX,
+  MUSIC_AUDIO,
+} from "./utils/constants.js";
+
+import {
+  music_name_display,
+  composer_display,
+  music_id_display,
+  music_album_cover,
+  progress_bar_wrapper,
+  progress_bar,
+  play_btn,
+  timestamp,
+  forwards_music_btn,
+  backwards_music_btn,
+} from "./utils/htmlConstants.js";
 
 // futuramente quero adicionar um sistema para o usuário enviar a música
 // por hora eu vou providenciar as músicas
-const CURRENT_MUSIC_PATH = "assets/music1.mp3";
+let current_music_index = 1;
 let current_music_state = "pause";
+let local_musics = {};
 
-const music_audio = new Audio();
-music_audio.src = CURRENT_MUSIC_PATH;
+async function fetch_data() {
+  const res = await fetch("data.json");
 
-// TODO: botão de replay
-// TODO: adicionar mais músicas (json?)
+  if (!res.ok) {
+    throw new Error(`ERRO! Status: ${res.status}`);
+  }
+
+  const data = await res.json();
+  return data;
+}
+
+// easter egg :)
+document.addEventListener("keydown", (e) => {
+  if (e.ctrlKey && e.key === "k") {
+    e.preventDefault();
+    console.log("funfo :D");
+  }
+});
+
+async function load_music(music_obj) {
+  music_id_display.textContent = music_obj.id;
+  music_name_display.textContent = music_obj.name;
+  composer_display.textContent = music_obj.composer;
+  music_album_cover.src = music_obj.img_path;
+  MUSIC_AUDIO.src = music_obj.audio_path;
+}
+
+document.addEventListener("DOMContentLoaded", async () => {
+  update_progress_bar();
+  local_musics = await fetch_data();
+  load_music(local_musics[`music${current_music_index}`]);
+});
 
 function get_music_duration() {
-  let raw_duration = music_audio.duration; // retorna a duração da música em segundos
+  if (!MUSIC_AUDIO.duration || isNaN(MUSIC_AUDIO.duration)) return "0:00";
 
-  let duration_minutes = Math.floor(raw_duration / 60);
-  let duration_seconds = Math.floor(raw_duration % 60);
+  let raw_duration = MUSIC_AUDIO.duration; // retorna a duração da música em segundos
+  let minutes = Math.floor(raw_duration / 60);
+  let seconds = Math.floor(raw_duration % 60)
+    .toString()
+    .padStart(2, "0");
 
-  duration_seconds = duration_seconds.toString().padStart(2, "0");
+  return `${minutes}:${seconds}`; // retorna a duração formatada da música :)
+}
 
-  return `${duration_minutes}:${duration_seconds}`; // retorna a duração formatada da música :)
+function update_progress_bar() {
+  if (!MUSIC_AUDIO.duration) return;
+
+  const percentage = (MUSIC_AUDIO.currentTime / MUSIC_AUDIO.duration) * 100;
+  progress_bar.style.width = percentage + "%";
+
+  if (percentage >= 3) {
+    progress_bar.classList.add("show-circle");
+  } else {
+    progress_bar.classList.remove("show-circle");
+  }
 }
 
 function get_audio_current_time() {
-  let audio_current_time = Math.floor(music_audio.currentTime);
+  let audio_current_time = Math.floor(MUSIC_AUDIO.currentTime);
 
   let minutes = Math.floor(audio_current_time / 60);
   let seconds = Math.floor(audio_current_time % 60);
@@ -40,37 +99,87 @@ function get_audio_current_time() {
   }
 }
 
-function change_music_state() {}
-
 // atualiza a barra de progresso de acordo com a duração da música
-music_audio.addEventListener("timeupdate", () => {
-  const percentage = (music_audio.currentTime / music_audio.duration) * 100;
-  progress_bar.style.width = percentage + "%";
+MUSIC_AUDIO.addEventListener("timeupdate", () => {
+  update_progress_bar();
+  get_audio_current_time();
+});
+
+MUSIC_AUDIO.addEventListener("ended", () => {
+  play_btn.innerHTML = REPEAT_ICON_HTML;
+  current_music_state = "replay";
 });
 
 // calcula a posição do click relativo ao container pai (largura fixa)
 progress_bar_wrapper.addEventListener("click", (e) => {
   const rect = progress_bar_wrapper.getBoundingClientRect();
   const percentage = (e.clientX - rect.left) / rect.width;
-  music_audio.currentTime = percentage * music_audio.duration; // converte em porcentagem e pula para esse ponto do audio
+  MUSIC_AUDIO.currentTime = percentage * MUSIC_AUDIO.duration; // converte em porcentagem e pula para esse ponto do audio
 });
 
-music_audio.addEventListener("loadedmetadata", () => {
+MUSIC_AUDIO.addEventListener("loadedmetadata", async () => {
   get_audio_current_time();
 });
 
-setInterval(get_audio_current_time, 1000);
+// para lidar com erros mais facilmente no futuro :)
+MUSIC_AUDIO.addEventListener("error", () => {
+  console.error("Erro ao carregar áudio:", MUSIC_AUDIO.error);
+});
 
-// tive problemas com a política de reprodução automática do chrome
+// tive problemas com a política de reprodução automática do chrome :(
 // então a música só vai começar a tocar quando clicar na página
 play_btn.addEventListener("click", () => {
-  if (current_music_state == "pause") {
-    play_btn.innerHTML = `<i class="fa-solid fa-pause" style="color: rgb(255, 255, 255);"></i>`;
-    music_audio.play();
+  if (current_music_state == "pause" || current_music_state == "replay") {
+    play_btn.innerHTML = PAUSE_ICON_HTML;
+    MUSIC_AUDIO.play();
     current_music_state = "play";
   } else {
-    play_btn.innerHTML = `<i class="fa-solid fa-play" style="color: rgb(255, 255, 255);"></i>`;
-    music_audio.pause();
+    play_btn.innerHTML = PLAY_ICON_HTML;
+    MUSIC_AUDIO.pause();
     current_music_state = "pause";
   }
+});
+
+forwards_music_btn.addEventListener("click", () => {
+  if (current_music_index == MUSIC_MAX_INDEX) return;
+
+  current_music_index += 1;
+  load_music(local_musics[`music${current_music_index}`]);
+
+  MUSIC_AUDIO.addEventListener(
+    "loadedmetadata",
+    () => {
+      MUSIC_AUDIO.currentTime = 0;
+      update_progress_bar();
+      get_audio_current_time();
+
+      if (current_music_state == "play") {
+        current_music_state = "pause";
+        play_btn.innerHTML = PLAY_ICON_HTML;
+      }
+    },
+    { once: true },
+  ); // once: true para não acumular listeners
+});
+
+backwards_music_btn.addEventListener("click", () => {
+  if (current_music_index == MUSIC_MIN_INDEX) return;
+
+  current_music_index -= 1;
+  load_music(local_musics[`music${current_music_index}`]);
+
+  MUSIC_AUDIO.addEventListener(
+    "loadedmetadata",
+    () => {
+      MUSIC_AUDIO.currentTime = 0;
+      update_progress_bar();
+      get_audio_current_time();
+
+      if (current_music_state == "play") {
+        current_music_state = "pause";
+        play_btn.innerHTML = PLAY_ICON_HTML;
+      }
+    },
+    { once: true },
+  );
 });

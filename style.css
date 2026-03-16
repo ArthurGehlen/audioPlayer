@@ -30,8 +30,34 @@ body {
   gap: 1.8rem;
 }
 
+.img_wrapper {
+  width: 100%;
+  height: 20rem;
+  position: relative;
+}
+
+/* TODO: o css desse id é o mesmo dos botões de controle
+  achar uma forma de diminuir as linhas 
+*/
+#music_id_display {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  border: none;
+  height: 2rem;
+  width: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: hsla(0, 0%, 10%, 1);
+  transition: 0.4s ease background-color;
+}
+
 img {
-  max-width: 100%;
+  width: 100%;
+  height: 100%;
+  border-radius: 1rem;
 }
 
 .music_details {
@@ -58,13 +84,18 @@ img {
 
 #progress_bar_wrapper {
   width: 100%;
-  height: 0.5rem;
-  background-color: hsla(0, 0%, 100%, 0.4);
+  height: 0.35rem;
+  background-color: hsla(0, 0%, 100%, 0.2);
   border-radius: 2rem;
   display: flex;
   justify-content: center;
   flex-direction: column;
   cursor: pointer;
+  transition: height 0.2s ease;
+}
+
+#progress_bar_wrapper:hover {
+  height: 0.45rem;
 }
 
 #progress_bar {
@@ -85,6 +116,13 @@ img {
   width: 1rem;
   background-color: #f52929;
   border-radius: 50%;
+  display: none;
+  opacity: 0;
+}
+
+#progress_bar.show-circle::after {
+  display: block;
+  opacity: 1;
 }
 
 .controls {
@@ -93,7 +131,7 @@ img {
   gap: 0.8rem;
 }
 
-#play_btn {
+.control_music_btn {
   border: none;
   height: 2rem;
   width: 2rem;
@@ -106,6 +144,22 @@ img {
   transition: 0.4s ease background-color;
 }
 
-#play_btn:hover {
+.control_music_btn:hover {
   background-color: hsla(0, 0%, 100%, 0.2);
+}
+
+.control_music_index_wrapper {
+  display: flex;
+  gap: 0.4rem;
+}
+
+#timestamp {
+  border: none;
+  height: 2rem;
+  width: 6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1rem;
+  background-color: hsla(0, 0%, 100%, 0.1);
 }

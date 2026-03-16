@@ -1,0 +1,16 @@
+{
+  "music1": {
+    "id": 1,
+    "name": "Play N Go",
+    "composer": "Hudson Mohawke",
+    "audio_path": "assets/audios/music1.mp3",
+    "img_path": "assets/imgs/music1.jpg"
+  },
+  "music2": {
+    "id": 2,
+    "name": "So Very Hard To Go",
+    "composer": "Tower Of Power",
+    "audio_path": "assets/audios/music2.mp3",
+    "img_path": "assets/imgs/music2.jpg"
+  }
+}

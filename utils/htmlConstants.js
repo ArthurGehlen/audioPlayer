@@ -1,0 +1,12 @@
+export const music_name_display = document.getElementById("music_name_display");
+export const composer_display = document.getElementById("composer_display");
+export const music_id_display = document.getElementById("music_id_display");
+export const timestamp = document.getElementById("timestamp");
+export const progress_bar_wrapper = document.getElementById(
+  "progress_bar_wrapper",
+);
+export const play_btn = document.getElementById("play_btn");
+export const progress_bar = document.getElementById("progress_bar");
+export const music_album_cover = document.getElementById("music_album_cover");
+export const forwards_music_btn = document.getElementById("forwards");
+export const backwards_music_btn = document.getElementById("backwards");

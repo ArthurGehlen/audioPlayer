@@ -11,25 +11,48 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
-    <script src="script.js" defer></script>
+    <!-- <script type="module" src="constants.js"></script> -->
+    <script type="module" src="script.js" defer></script>
+    <script src="utils/htmlConstants.js" defer></script>
     <title>Music Player :)</title>
   </head>
   <body>
     <div id="container">
-      <img src="assets/music1.jpg" alt="" />
+      <div class="img_wrapper">
+        <div id="music_id_display"></div>
+        <img
+          src="assets/music1.jpg"
+          id="music_album_cover"
+          alt="Music Album Cover"
+        />
+      </div>
       <div class="music_details">
-        <h2>Play N Go</h2>
-        <p>Hudson Mohawke</p>
+        <h2 id="music_name_display"></h2>
+        <p id="composer_display"></p>
       </div>
       <div class="music_controller_wrapper">
         <div id="progress_bar_wrapper">
           <div id="progress_bar"></div>
         </div>
         <div class="controls">
-          <button id="play_btn">
-            <i class="fa-solid fa-play" style="color: rgb(255, 255, 255);"></i>
+          <button id="play_btn" class="control_music_btn">
+            <i class="fa-solid fa-play" style="color: rgb(255, 255, 255)"></i>
           </button>
-          <p id="timestamp">0:00/0:00</p>
+          <div class="control_music_index_wrapper">
+            <button id="backwards" class="control_music_btn">
+              <i
+                class="fa-solid fa-backward-step"
+                style="color: rgb(255, 255, 255)"
+              ></i>
+            </button>
+            <button id="forwards" class="control_music_btn">
+              <i
+                class="fa-solid fa-forward-step"
+                style="color: rgb(255, 255, 255)"
+              ></i>
+            </button>
+          </div>
+          <p id="timestamp"></p>
         </div>
       </div>
     </div>
