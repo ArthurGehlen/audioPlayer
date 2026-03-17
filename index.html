@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
+    <link rel="shortcut icon" href="/assets/favicon.svg" type="image/x-icon" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
@@ -11,7 +12,6 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
-    <!-- <script type="module" src="constants.js"></script> -->
     <script type="module" src="script.js" defer></script>
     <script src="utils/htmlConstants.js" defer></script>
     <title>Music Player :)</title>
@@ -54,6 +54,23 @@
           </div>
           <p id="timestamp"></p>
         </div>
+      </div>
+
+      <div id="configs_wrapper">
+        <header>
+          <div class="divider_line"></div>
+          <div class="header_config_container">
+            <p>Configurações</p>
+            <button id="toggle_configs_btn">
+            <i
+              class="fa-solid fa-angle-down"
+              style="color: rgb(255, 255, 255)"
+            ></i>
+          </button>
+          </div>
+        </header>
+
+        <div class="configs_container"></div>
       </div>
     </div>
   </body>

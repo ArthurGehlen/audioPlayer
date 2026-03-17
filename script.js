@@ -1,24 +1,26 @@
 import {
+  MUSIC_AUDIO,
+  MUSIC_MAX_INDEX,
+  MUSIC_MIN_INDEX,
   PAUSE_ICON_HTML,
   PLAY_ICON_HTML,
   REPEAT_ICON_HTML,
-  MUSIC_MAX_INDEX,
-  MUSIC_MIN_INDEX,
-  MUSIC_AUDIO,
 } from "./utils/constants.js";
 
 import {
-  music_name_display,
-  composer_display,
-  music_id_display,
-  music_album_cover,
-  progress_bar_wrapper,
-  progress_bar,
-  play_btn,
-  timestamp,
-  forwards_music_btn,
   backwards_music_btn,
+  composer_display,
+  forwards_music_btn,
+  music_album_cover,
+  music_id_display,
+  music_name_display,
+  play_btn,
+  progress_bar,
+  progress_bar_wrapper,
+  timestamp,
 } from "./utils/htmlConstants.js";
+
+// TODO: fazer sistema de volume
 
 // futuramente quero adicionar um sistema para o usuário enviar a música
 // por hora eu vou providenciar as músicas
@@ -37,8 +39,27 @@ async function fetch_data() {
   return data;
 }
 
+function change_music_state() {
+  if (!MUSIC_AUDIO) return;
+
+  if (current_music_state == "pause" || current_music_state == "replay") {
+    play_btn.innerHTML = PAUSE_ICON_HTML;
+    MUSIC_AUDIO.play();
+    current_music_state = "play";
+  } else {
+    play_btn.innerHTML = PLAY_ICON_HTML;
+    MUSIC_AUDIO.pause();
+    current_music_state = "pause";
+  }
+}
+
 // easter egg :)
 document.addEventListener("keydown", (e) => {
+  if (e.key === " ") {
+    e.preventDefault();
+
+    change_music_state()
+  }
   if (e.ctrlKey && e.key === "k") {
     e.preventDefault();
     console.log("funfo :D");
@@ -77,7 +98,7 @@ function update_progress_bar() {
   const percentage = (MUSIC_AUDIO.currentTime / MUSIC_AUDIO.duration) * 100;
   progress_bar.style.width = percentage + "%";
 
-  if (percentage >= 3) {
+  if (percentage >= 2) {
     progress_bar.classList.add("show-circle");
   } else {
     progress_bar.classList.remove("show-circle");
@@ -129,15 +150,7 @@ MUSIC_AUDIO.addEventListener("error", () => {
 // tive problemas com a política de reprodução automática do chrome :(
 // então a música só vai começar a tocar quando clicar na página
 play_btn.addEventListener("click", () => {
-  if (current_music_state == "pause" || current_music_state == "replay") {
-    play_btn.innerHTML = PAUSE_ICON_HTML;
-    MUSIC_AUDIO.play();
-    current_music_state = "play";
-  } else {
-    play_btn.innerHTML = PLAY_ICON_HTML;
-    MUSIC_AUDIO.pause();
-    current_music_state = "pause";
-  }
+  change_music_state();
 });
 
 forwards_music_btn.addEventListener("click", () => {
@@ -152,11 +165,7 @@ forwards_music_btn.addEventListener("click", () => {
       MUSIC_AUDIO.currentTime = 0;
       update_progress_bar();
       get_audio_current_time();
-
-      if (current_music_state == "play") {
-        current_music_state = "pause";
-        play_btn.innerHTML = PLAY_ICON_HTML;
-      }
+      change_music_state();
     },
     { once: true },
   ); // once: true para não acumular listeners
@@ -174,11 +183,7 @@ backwards_music_btn.addEventListener("click", () => {
       MUSIC_AUDIO.currentTime = 0;
       update_progress_bar();
       get_audio_current_time();
-
-      if (current_music_state == "play") {
-        current_music_state = "pause";
-        play_btn.innerHTML = PLAY_ICON_HTML;
-      }
+      change_music_state();
     },
     { once: true },
   );
