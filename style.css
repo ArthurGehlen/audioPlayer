@@ -5,7 +5,7 @@
 :root {
   --progress_bar_color: linear-gradient(to right, #ff0000, #f52929);
   --progress_bar_circle_color: #f52929;
-  --progress_bar_size: .8rem;
+  --progress_bar_size: 0.8rem;
 }
 
 * {
@@ -32,7 +32,7 @@ body {
   border-radius: 0.8rem;
   display: flex;
   flex-direction: column;
-  gap: 1.8rem;
+  gap: 1.6rem;
 }
 
 .img_wrapper {
@@ -47,10 +47,11 @@ img {
 }
 
 .music_details {
+  height: fit-content;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.6rem;
 }
 
 .music_details p {
@@ -121,7 +122,20 @@ img {
   position: absolute;
   top: 1rem;
   left: 1rem;
+}
+
+#music_id_display,
+#recommended_by_display {
   background-color: hsla(0, 0%, 10%, 1);
+}
+
+#recommended_by_display {
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1rem;
+  padding: 0.4rem 1rem;
 }
 
 .control_music_btn,
@@ -141,6 +155,7 @@ img {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
+  transition: 0.4s ease transform;
 }
 
 .configs_btn_active {
@@ -172,7 +187,7 @@ img {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: .6rem;
+  gap: 0.6rem;
 }
 
 .header_config_container {
@@ -188,9 +203,21 @@ img {
   background-color: #666;
 }
 
-.configs_container {
-  display: none;
+#configs_container {
+  margin-top: 0.4rem;
   width: 100%;
-  height: 5rem;
-  padding: 1rem;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: all 0.4s ease;
+}
+
+#configs_container p {
+  text-align: center;
+}
+
+.configs_container_active {
+  padding: 2rem;
+  max-height: fit-content !important;
+  opacity: 1 !important;
 }

@@ -14,13 +14,17 @@ import {
   music_album_cover,
   music_id_display,
   music_name_display,
+  recommended_by_display,
   play_btn,
   progress_bar,
   progress_bar_wrapper,
   timestamp,
+  toggle_configs_btn,
+  configs_container,
 } from "./utils/htmlConstants.js";
 
 // TODO: fazer sistema de volume
+// TODO: fazer sistema de loop
 
 // futuramente quero adicionar um sistema para o usuário enviar a música
 // por hora eu vou providenciar as músicas
@@ -57,8 +61,7 @@ function change_music_state() {
 document.addEventListener("keydown", (e) => {
   if (e.key === " ") {
     e.preventDefault();
-
-    change_music_state()
+    change_music_state();
   }
   if (e.ctrlKey && e.key === "k") {
     e.preventDefault();
@@ -72,6 +75,7 @@ async function load_music(music_obj) {
   composer_display.textContent = music_obj.composer;
   music_album_cover.src = music_obj.img_path;
   MUSIC_AUDIO.src = music_obj.audio_path;
+  recommended_by_display.textContent = `Recomendado por: ${music_obj.recommended_by}`;
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -165,7 +169,11 @@ forwards_music_btn.addEventListener("click", () => {
       MUSIC_AUDIO.currentTime = 0;
       update_progress_bar();
       get_audio_current_time();
-      change_music_state();
+
+      if (current_music_state == "play") {
+        current_music_state = "pause";
+        play_btn.innerHTML = PLAY_ICON_HTML;
+      }
     },
     { once: true },
   ); // once: true para não acumular listeners
@@ -183,8 +191,17 @@ backwards_music_btn.addEventListener("click", () => {
       MUSIC_AUDIO.currentTime = 0;
       update_progress_bar();
       get_audio_current_time();
-      change_music_state();
+
+      if (current_music_state == "play") {
+        current_music_state = "pause";
+        play_btn.innerHTML = PLAY_ICON_HTML;
+      }
     },
     { once: true },
   );
+});
+
+toggle_configs_btn.addEventListener("click", () => {
+  toggle_configs_btn.classList.toggle("configs_btn_active");
+  configs_container.classList.toggle("configs_container_active");
 });

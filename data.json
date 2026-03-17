@@ -4,13 +4,63 @@
     "name": "Play N Go",
     "composer": "Hudson Mohawke",
     "audio_path": "assets/audios/music1.mp3",
-    "img_path": "assets/imgs/music1.jpg"
+    "img_path": "assets/imgs/music1.jpg",
+    "recommended_by": "Arthur"
   },
   "music2": {
     "id": 2,
     "name": "So Very Hard To Go",
     "composer": "Tower Of Power",
     "audio_path": "assets/audios/music2.mp3",
-    "img_path": "assets/imgs/music2.jpg"
+    "img_path": "assets/imgs/music2.jpg",
+    "recommended_by": "Arthur"
+  },
+  "music3": {
+    "id": 3,
+    "name": "Hideaway",
+    "composer": "Marino",
+    "audio_path": "assets/audios/music3.mp3",
+    "img_path": "assets/imgs/music3.jpg",
+    "recommended_by": "Helen"
+  },
+  "music4": {
+    "id": 4,
+    "name": "Hold Them Down",
+    "composer": "Jorge Rivera-Herrans",
+    "audio_path": "assets/audios/music4.mp3",
+    "img_path": "assets/imgs/music4.jpg",
+    "recommended_by": "Helen"
+  },
+  "music5": {
+    "id": 5,
+    "name": "Comfortably Numb",
+    "composer": "Pink Floyd",
+    "audio_path": "assets/audios/music5.mp3",
+    "img_path": "assets/imgs/music5.jpg",
+    "recommended_by": "Carlos"
+  },
+  "music6": {
+    "id": 6,
+    "name": "Lithium",
+    "composer": "Nirvana",
+    "audio_path": "assets/audios/music6.mp3",
+    "img_path": "assets/imgs/music6.jpg",
+    "recommended_by": "Carlos"
+  },
+  "music7": {
+    "id": 7,
+    "name": "Mice on Venus",
+    "composer": "C418",
+    "audio_path": "assets/audios/music7.mp3",
+    "img_path": "assets/imgs/music7.jpg",
+    "recommended_by": "Samuel"
+  },
+  "music8": {
+    "id": 8,
+    "name": "Pokémon Intro",
+    "composer": "Pokémon",
+    "audio_path": "assets/audios/music8.mp3",
+    "img_path": "assets/imgs/music8.jpg",
+    "recommended_by": "Samuel"
   }
 }
