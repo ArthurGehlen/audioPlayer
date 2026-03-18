@@ -21,15 +21,18 @@ import {
   timestamp,
   toggle_configs_btn,
   configs_container,
+  loop_btn,
 } from "./utils/htmlConstants.js";
 
+import { easter_egg_function } from "./utils/easterEggFunction.js";
+
 // TODO: fazer sistema de volume
-// TODO: fazer sistema de loop
 
 // futuramente quero adicionar um sistema para o usuário enviar a música
 // por hora eu vou providenciar as músicas
 let current_music_index = 1;
 let current_music_state = "pause";
+let is_loop_active = false;
 let local_musics = {};
 
 async function fetch_data() {
@@ -63,9 +66,9 @@ document.addEventListener("keydown", (e) => {
     e.preventDefault();
     change_music_state();
   }
-  if (e.ctrlKey && e.key === "k") {
+  if (e.ctrlKey && e.key === "m") {
     e.preventDefault();
-    console.log("funfo :D");
+    easter_egg_function();
   }
 });
 
@@ -131,8 +134,13 @@ MUSIC_AUDIO.addEventListener("timeupdate", () => {
 });
 
 MUSIC_AUDIO.addEventListener("ended", () => {
-  play_btn.innerHTML = REPEAT_ICON_HTML;
-  current_music_state = "replay";
+  if (is_loop_active) {
+    MUSIC_AUDIO.currentTime = 0;
+    MUSIC_AUDIO.play();
+  } else {
+    play_btn.innerHTML = REPEAT_ICON_HTML;
+    current_music_state = "replay";
+  }
 });
 
 // calcula a posição do click relativo ao container pai (largura fixa)
@@ -140,6 +148,11 @@ progress_bar_wrapper.addEventListener("click", (e) => {
   const rect = progress_bar_wrapper.getBoundingClientRect();
   const percentage = (e.clientX - rect.left) / rect.width;
   MUSIC_AUDIO.currentTime = percentage * MUSIC_AUDIO.duration; // converte em porcentagem e pula para esse ponto do audio
+
+  if (current_music_state == "replay") {
+    current_music_state = "pause";
+    play_btn.innerHTML = PLAY_ICON_HTML;
+  }
 });
 
 MUSIC_AUDIO.addEventListener("loadedmetadata", async () => {
@@ -204,4 +217,10 @@ backwards_music_btn.addEventListener("click", () => {
 toggle_configs_btn.addEventListener("click", () => {
   toggle_configs_btn.classList.toggle("configs_btn_active");
   configs_container.classList.toggle("configs_container_active");
+});
+
+loop_btn.addEventListener("click", () => {
+  loop_btn.classList.toggle("loop_active");
+
+  is_loop_active ? (is_loop_active = false) : (is_loop_active = true);
 });

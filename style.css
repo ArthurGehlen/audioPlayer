@@ -22,6 +22,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
 #container {
@@ -162,8 +163,13 @@ img {
   transform: rotate(180deg);
 }
 
+#loop_btn:active {
+  background-color: hsla(0, 0%, 100%, 0.3);
+}
+
 .control_music_btn:hover,
-#toggle_configs_btn:hover {
+#toggle_configs_btn:hover,
+.loop_active {
   background-color: hsla(0, 0%, 100%, 0.2);
 }
 
@@ -220,4 +226,10 @@ img {
   padding: 2rem;
   max-height: fit-content !important;
   opacity: 1 !important;
+}
+
+@keyframes easter_egg_animation {
+  to {
+    right: 0;
+  }
 }
