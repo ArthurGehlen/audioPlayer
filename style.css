@@ -1,10 +1,38 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
 
-/* TODO: organizar o root */
-
 :root {
-  --progress_bar_color: linear-gradient(to right, #ff0000, #f52929);
-  --progress_bar_circle_color: #f52929;
+  /* ── Palette ─────────────────────────────────────────────── */
+  --palette_black: #111111;
+  --palette_dark: #1a1a1a;
+  --palette_grey_dark: #666666;
+  --palette_white: #ffffff;
+  --palette_red: #ff0000;
+  --palette_red_mid: #f52929;
+
+  /* ── Spacing ─────────────────────────────────────────────── */
+  --gap_sm: 0.4rem;
+  --gap_md: 0.6rem;
+  --gap_lg: 0.8rem;
+
+  /* ── Buttons ─────────────────────────────────────────────── */
+  --btn_size: 2rem;
+  --btn_radius: 50%;
+
+  /* ── Border radius ───────────────────────────────────────── */
+  --radius_sm: 0.8rem;
+  --radius_md: 1rem;
+  --radius_pill: 4rem;
+
+  /* ── Transitions ─────────────────────────────────────────── */
+  --transition_speed: 0.4s ease;
+
+  /* ── Progress bar ────────────────────────────────────────── */
+  --progress_bar_color: linear-gradient(
+    to right,
+    var(--palette_red),
+    var(--palette_red_mid)
+  );
+  --progress_bar_thumb_color: var(--palette_red_mid);
   --progress_bar_size: 0.8rem;
 }
 
@@ -16,25 +44,28 @@
 }
 
 body {
-  background-color: #111;
-  color: #fff;
+  background-color: var(--color_bg);
+  color: var(--color_text);
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  overflow-x: hidden;
 }
+
+/* ── Container ────────────────────────────────────────────── */
 
 #container {
   width: 25rem;
-  height: fit-content;
-  background: hsla(0, 0%, 100%, 0.1);
+  background: var(--color_surface);
   padding: 1rem 2rem;
-  border-radius: 0.8rem;
+  border-radius: var(--radius_sm);
   display: flex;
   flex-direction: column;
   gap: 1.6rem;
 }
+
+/* ── Album cover ──────────────────────────────────────────── */
 
 .img_wrapper {
   height: 20rem;
@@ -44,30 +75,57 @@ body {
 img {
   width: 100%;
   height: 100%;
-  border-radius: 1rem;
+  border-radius: var(--radius_md);
 }
 
+#music_id_display {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background-color: var(--color_badge);
+  border: none;
+  height: 2rem;
+  width: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+/* ── Music details ────────────────────────────────────────── */
+
 .music_details {
-  height: fit-content;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.6rem;
+  gap: var(--gap_md);
 }
 
 .music_details p {
-  background-color: hsla(0, 0%, 100%, 0.1);
-  width: fit-content;
-  padding: 0.4rem 0.8rem;
-  border-radius: 4rem;
+  background-color: var(--color_surface);
+  padding: 0.4rem var(--gap_lg);
+  border-radius: var(--radius_pill);
   font-size: 0.6rem;
   font-weight: bold;
 }
 
+#recommended_by_display {
+  height: var(--btn_size);
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius_md);
+  padding: 0.4rem 1rem;
+  background-color: var(--color_badge);
+}
+
+/* ── Progress bar ─────────────────────────────────────────── */
+
 .music_controller_wrapper {
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
+  gap: var(--gap_md);
 }
 
 #progress_bar_wrapper {
@@ -102,98 +160,93 @@ img {
   transform: translate(0, -50%);
   height: var(--progress_bar_size);
   width: var(--progress_bar_size);
-  background-color: var(--progress_bar_circle_color);
+  background-color: var(--progress_bar_thumb_color);
   border-radius: 50%;
   display: none;
-  opacity: 0;
 }
 
-#progress_bar.show-circle::after {
-  display: block;
-  opacity: 1;
+#progress_bar_wrapper:hover #progress_bar::after {
+  display: block !important;
 }
+
+/* ── Controls ─────────────────────────────────────────────── */
 
 .controls {
   display: flex;
   align-items: center;
-  gap: 0.8rem;
-}
-
-#music_id_display {
-  position: absolute;
-  top: 1rem;
-  left: 1rem;
-}
-
-#music_id_display,
-#recommended_by_display {
-  background-color: hsla(0, 0%, 10%, 1);
-}
-
-#recommended_by_display {
-  height: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 1rem;
-  padding: 0.4rem 1rem;
-}
-
-.control_music_btn,
-#toggle_configs_btn {
-  background-color: hsla(0, 0%, 100%, 0.1);
-  cursor: pointer;
-  transition: 0.4s ease background-color;
-}
-
-#music_id_display,
-.control_music_btn,
-#toggle_configs_btn {
-  border: none;
-  height: 2rem;
-  width: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  transition: 0.4s ease transform;
-}
-
-.configs_btn_active {
-  transform: rotate(180deg);
-}
-
-#loop_btn:active {
-  background-color: hsla(0, 0%, 100%, 0.3);
-}
-
-.control_music_btn:hover,
-#toggle_configs_btn:hover,
-.loop_active {
-  background-color: hsla(0, 0%, 100%, 0.2);
+  gap: var(--gap_lg);
 }
 
 .control_music_index_wrapper {
   display: flex;
-  gap: 0.4rem;
+  gap: var(--gap_sm);
+}
+
+.control_music_btn,
+#toggle_configs_btn {
+  border: none;
+  height: var(--btn_size);
+  width: var(--btn_size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--btn_radius);
+  background-color: var(--color_surface);
+  cursor: pointer;
+  transition: background-color var(--transition_speed);
+}
+
+.control_music_btn {
+  position: relative;
+}
+
+.control_music_btn:hover,
+#toggle_configs_btn:hover {
+  background-color: var(--color_surface_hover);
 }
 
 #timestamp {
   border: none;
-  height: 2rem;
+  height: var(--btn_size);
   width: 6rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 1rem;
-  background-color: hsla(0, 0%, 100%, 0.1);
+  border-radius: var(--radius_md);
+  background-color: var(--color_surface);
 }
+
+/* ── Loop button ──────────────────────────────────────────── */
+
+.loop_active {
+  background-color: var(--loop_bg_color) !important;
+}
+
+.loop_active::after {
+  content: "";
+  width: 0.4rem;
+  height: 0.4rem;
+  position: absolute;
+  bottom: -1rem;
+  background-color: var(--color_knob);
+  border-radius: 50%;
+}
+
+.loop_active:hover {
+  background-color: var(--loop_bg_color) !important;
+}
+
+#loop_btn:active {
+  background-color: var(--color_surface);
+}
+
+/* ── Configs section ──────────────────────────────────────── */
 
 #configs_wrapper header {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 0.6rem;
+  gap: var(--gap_md);
 }
 
 .header_config_container {
@@ -206,30 +259,92 @@ img {
 .divider_line {
   height: 1px;
   width: 100%;
-  background-color: #666;
+  background-color: var(--color_divider);
 }
 
 #configs_container {
-  margin-top: 0.4rem;
+  margin-top: var(--gap_sm);
   width: 100%;
   max-height: 0;
   overflow: hidden;
   opacity: 0;
-  transition: all 0.4s ease;
+  transition: all var(--transition_speed);
 }
 
 #configs_container p {
   text-align: center;
+  margin: 2rem 0;
 }
 
 .configs_container_active {
-  padding: 2rem;
   max-height: fit-content !important;
   opacity: 1 !important;
 }
 
-@keyframes easter_egg_animation {
-  to {
-    right: 0;
-  }
+#toggle_configs_btn .fa-angle-down {
+  transition: transform var(--transition_speed);
+}
+
+.configs_btn_active .fa-angle-down {
+  transform: rotate(180deg);
+}
+
+/* ── Change Theme Wrapper ──────────────────────────────────────── */
+
+.change_theme_btn_wrapper {
+  cursor: pointer;
+  width: 4rem;
+  height: 1.75rem;
+  background-color: var(--color_surface);
+  border-radius: 4rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0.35rem;
+  transition: background-color var(--transition_speed);
+}
+
+.change_theme_btn_wrapper .icon-sun,
+.change_theme_btn_wrapper .icon-moon {
+  font-size: 0.6rem;
+  color: #fff;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.change_theme_btn_wrapper::after {
+  content: "";
+  position: absolute;
+  width: 1.25rem;
+  height: 1.25rem;
+  left: 0.22rem;
+  background-color: var(--color_knob);
+  border-radius: 50%;
+  transition: left var(--transition_speed);
+  z-index: 2;
+}
+
+.change_theme_btn_wrapper input[type="checkbox"] {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  margin: 0;
+  border-radius: 4rem;
+  z-index: 3;
+}
+
+.change_theme_btn_wrapper:has(#theme_switcher_btn:checked) {
+  background-color: var(--color_surface_hover);
+}
+
+.change_theme_btn_wrapper:has(#theme_switcher_btn:checked)::after {
+  left: calc(100% - 1.47rem);
+}
+
+.change_theme_btn_checked:has(#theme_switcher_btn:checked)::after {
+  right: calc(100% - 1.47rem);
 }

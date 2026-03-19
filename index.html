@@ -3,8 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
     <link rel="shortcut icon" href="assets/favicon.svg" type="image/x-icon" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="styles/darkMode.css" />
+
+    <!--Font Awesome-->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
@@ -12,6 +15,7 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+    <script src="utils/easterEggFunction.js"></script>
     <script type="module" src="script.js" defer></script>
     <script src="utils/htmlConstants.js" defer></script>
     <title>Music Player :)</title>
@@ -27,7 +31,7 @@
         />
       </div>
       <div class="music_details">
-        <div id="recommended_by_display"></div>
+        <div id="recommended_by_display" class="control_music_btn"></div>
         <h2 id="music_name_display"></h2>
         <p id="composer_display"></p>
       </div>
@@ -75,7 +79,15 @@
         </header>
 
         <div id="configs_container">
-          <p>Ainda não tem nada aqui :(</p>
+          <div class="change_theme_wrapper">
+            <label class="change_theme_btn_wrapper" for="theme_switcher_btn">
+              <input type="checkbox" id="theme_switcher_btn" />
+              <i class="icon-moon fa-solid fa-moon"></i>
+              <i class="icon-sun fa-solid fa-sun"></i>
+            </label>
+          </div>
+
+          <p>Agora tem :)</p>
         </div>
       </div>
     </div>

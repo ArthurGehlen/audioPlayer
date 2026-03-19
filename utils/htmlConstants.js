@@ -16,3 +16,7 @@ export const backwards_music_btn = document.getElementById("backwards");
 export const toggle_configs_btn = document.getElementById("toggle_configs_btn");
 export const loop_btn = document.getElementById("loop_btn");
 export const configs_container = document.getElementById("configs_container");
+export const change_theme_wrapper = document.querySelector(
+  ".change_theme_btn_wrapper",
+);
+export const theme_switcher_btn = document.getElementById("theme_switcher_btn");
