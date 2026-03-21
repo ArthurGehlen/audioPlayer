@@ -21,6 +21,8 @@
     <script type="module" src="script.js" defer></script>
     <script src="utils/htmlConstants.js" defer></script>
     <script type="module" src="js/keyboardShortcuts.js" defer></script>
+    <script type="module" src="js/handleTheme.js" defer></script>
+    <script src="js/loadCache.js" defer></script>
 
     <title>Music Player :)</title>
   </head>
@@ -40,6 +42,11 @@
         <p id="composer_display"></p>
       </div>
       <div class="music_controller_wrapper">
+        <p style="text-align: center" class="maintence">Em manutenção :)</p>
+        <span class="maintence" style="font-size: 0.85rem; text-align: center"
+          >se quiser selecionar músicas abra as configurações e selecione o
+          album "default"</span
+        >
         <div id="progress_bar_wrapper">
           <div id="progress_bar"></div>
         </div>
@@ -61,7 +68,7 @@
               ></i>
             </button>
           </div>
-          <p id="timestamp"></p>
+          <p id="timestamp">0:00/0:00</p>
           <button id="loop_btn" class="control_music_btn">
             <i class="fa-solid fa-repeat" style="color: rgb(255, 255, 255)"></i>
           </button>
@@ -85,7 +92,7 @@
           </div>
         </header>
 
-        <div id="configs_container" class="configs_container_active">
+        <div id="configs_container">
           <div class="change_theme_wrapper">
             <label class="change_theme_btn_wrapper" for="theme_switcher_btn">
               <input type="checkbox" id="theme_switcher_btn" />
@@ -100,7 +107,7 @@
             <h2>Álbuns</h2>
 
             <div class="albuns_grid">
-              <div class="albun">
+              <div class="albun" id="default_albun">
                 <div class="albun_img">
                   <i class="fa-brands fa-itunes-note"></i>
                 </div>

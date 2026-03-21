@@ -23,3 +23,4 @@ export const theme_switcher_btn = document.getElementById("theme_switcher_btn");
 export const current_theme_display = document.getElementById(
   "current_theme_display",
 );
+export const default_albun = document.getElementById("default_albun");

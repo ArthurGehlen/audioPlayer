@@ -22,9 +22,7 @@ import {
   toggle_configs_btn,
   configs_container,
   loop_btn,
-  theme_switcher_btn,
-  change_theme_wrapper,
-  current_theme_display,
+  default_albun,
 } from "./utils/htmlConstants.js";
 
 import { easter_egg_function } from "./utils/easterEggFunction.js";
@@ -36,10 +34,9 @@ import { easter_egg_function } from "./utils/easterEggFunction.js";
 let current_music_index = 1;
 let current_music_state = "pause";
 let is_loop_active = false;
-let is_dark = true;
 let current_musics = {};
 
-async function fetch_data() {
+async function fetch_default_albun() {
   const res = await fetch("data.json");
 
   if (!res.ok) {
@@ -77,27 +74,6 @@ async function load_music(music_obj) {
   MUSIC_AUDIO.src = music_obj.audio_path;
   recommended_by_display.textContent = `Recomendado por: ${music_obj.recommended_by}`;
 }
-
-document.addEventListener("DOMContentLoaded", async () => {
-  update_progress_bar();
-  current_musics = await fetch_data();
-  load_music(current_musics[`music${current_music_index}`]);
-
-  const saved_is_dark = localStorage.getItem("is_dark");
-
-  // se nunca foi salvo assume dark como padrão
-  is_dark = saved_is_dark === null ? true : saved_is_dark === "true";
-
-  document.documentElement.setAttribute(
-    "data-theme",
-    is_dark ? "dark" : "light",
-  );
-
-  theme_switcher_btn.checked = !is_dark;
-
-  change_theme_wrapper.classList.add("change_theme_btn_checked");
-  current_theme_display.textContent = is_dark ? "Dark Mode" : "Light Mode";
-});
 
 function get_music_duration() {
   if (!MUSIC_AUDIO.duration || isNaN(MUSIC_AUDIO.duration)) return "0:00";
@@ -179,7 +155,7 @@ forwards_music_btn.addEventListener("click", () => {
   if (current_music_index == MUSIC_MAX_INDEX) return;
 
   current_music_index += 1;
-  load_music(local_musics[`music${current_music_index}`]);
+  load_music(current_musics[`music${current_music_index}`]);
 
   MUSIC_AUDIO.addEventListener(
     "loadedmetadata",
@@ -206,7 +182,7 @@ backwards_music_btn.addEventListener("click", () => {
   if (current_music_index == MUSIC_MIN_INDEX) return;
 
   current_music_index -= 1;
-  load_music(local_musics[`music${current_music_index}`]);
+  load_music(current_musics[`music${current_music_index}`]);
 
   MUSIC_AUDIO.addEventListener(
     "loadedmetadata",
@@ -240,12 +216,12 @@ loop_btn.addEventListener("click", () => {
   is_loop_active ? (is_loop_active = false) : (is_loop_active = true);
 });
 
-theme_switcher_btn.addEventListener("click", () => {
-  is_dark = !theme_switcher_btn.checked;
-  localStorage.setItem("is_dark", is_dark);
-  document.documentElement.setAttribute(
-    "data-theme",
-    is_dark ? "dark" : "light",
-  );
-  current_theme_display.textContent = is_dark ? "Dark Mode" : "Light Mode";
+default_albun.addEventListener("click", async () => {
+  current_musics = await fetch_default_albun();
+  load_music(current_musics[`music${current_music_index}`]);
+
+  // simples algoritmo para apagar as mensagens de aviso de manutenção
+  // PROVISÓRIO :)
+  let maintence_texts = document.querySelectorAll(".maintence");
+  maintence_texts.forEach((m) => (m.style.display = "none"));
 });
