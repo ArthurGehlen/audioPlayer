@@ -20,3 +20,6 @@ export const change_theme_wrapper = document.querySelector(
   ".change_theme_btn_wrapper",
 );
 export const theme_switcher_btn = document.getElementById("theme_switcher_btn");
+export const current_theme_display = document.getElementById(
+  "current_theme_display",
+);

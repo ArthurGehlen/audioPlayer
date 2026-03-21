@@ -271,11 +271,6 @@ img {
   transition: all var(--transition_speed);
 }
 
-#configs_container p {
-  text-align: center;
-  margin: 2rem 0;
-}
-
 .configs_container_active {
   max-height: fit-content !important;
   opacity: 1 !important;
@@ -290,6 +285,17 @@ img {
 }
 
 /* ── Change Theme Wrapper ──────────────────────────────────────── */
+
+.change_theme_wrapper {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.change_theme_wrapper p {
+  font-size: 0.9rem;
+  font-weight: bold;
+}
 
 .change_theme_btn_wrapper {
   cursor: pointer;
@@ -347,4 +353,47 @@ img {
 
 .change_theme_btn_checked:has(#theme_switcher_btn:checked)::after {
   right: calc(100% - 1.47rem);
+}
+
+/* ── Álbuns Container ──────────────────────────────────────── */
+
+.albuns_wrapper {
+  margin-top: 2rem;
+  overflow: visible;
+}
+
+.albuns_grid {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.albun {
+  cursor: pointer;
+  width: 6rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  transition: transform var(--transition_speed);
+}
+
+.albun:hover {
+  transform: scale(0.9);
+}
+
+.albun_img {
+  width: 100%;
+  height: 6rem;
+  background-color: var(--color_badge);
+  border-radius: 0.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.albun_img i {
+  font-size: 2rem;
 }

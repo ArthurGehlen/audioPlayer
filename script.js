@@ -24,6 +24,7 @@ import {
   loop_btn,
   theme_switcher_btn,
   change_theme_wrapper,
+  current_theme_display,
 } from "./utils/htmlConstants.js";
 
 import { easter_egg_function } from "./utils/easterEggFunction.js";
@@ -36,7 +37,7 @@ let current_music_index = 1;
 let current_music_state = "pause";
 let is_loop_active = false;
 let is_dark = true;
-let local_musics = {};
+let current_musics = {};
 
 async function fetch_data() {
   const res = await fetch("data.json");
@@ -49,7 +50,7 @@ async function fetch_data() {
   return data;
 }
 
-function change_music_state() {
+export function change_music_state() {
   if (!MUSIC_AUDIO) return;
 
   if (current_music_state == "pause" || current_music_state == "replay") {
@@ -62,18 +63,6 @@ function change_music_state() {
     current_music_state = "pause";
   }
 }
-
-// easter egg :)
-document.addEventListener("keydown", (e) => {
-  if (e.key === " ") {
-    e.preventDefault();
-    change_music_state();
-  }
-  if (e.ctrlKey && e.key === "m") {
-    e.preventDefault();
-    easter_egg_function();
-  }
-});
 
 // easter egg versão celular
 music_id_display.addEventListener("click", () => {
@@ -91,8 +80,8 @@ async function load_music(music_obj) {
 
 document.addEventListener("DOMContentLoaded", async () => {
   update_progress_bar();
-  local_musics = await fetch_data();
-  load_music(local_musics[`music${current_music_index}`]);
+  current_musics = await fetch_data();
+  load_music(current_musics[`music${current_music_index}`]);
 
   const saved_is_dark = localStorage.getItem("is_dark");
 
@@ -107,6 +96,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   theme_switcher_btn.checked = !is_dark;
 
   change_theme_wrapper.classList.add("change_theme_btn_checked");
+  current_theme_display.textContent = is_dark ? "Dark Mode" : "Light Mode";
 });
 
 function get_music_duration() {
@@ -257,4 +247,5 @@ theme_switcher_btn.addEventListener("click", () => {
     "data-theme",
     is_dark ? "dark" : "light",
   );
+  current_theme_display.textContent = is_dark ? "Dark Mode" : "Light Mode";
 });

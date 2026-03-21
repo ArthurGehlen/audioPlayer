@@ -15,9 +15,13 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+
+    <!--JS files-->
     <script src="utils/easterEggFunction.js"></script>
     <script type="module" src="script.js" defer></script>
     <script src="utils/htmlConstants.js" defer></script>
+    <script type="module" src="js/keyboardShortcuts.js" defer></script>
+
     <title>Music Player :)</title>
   </head>
   <body>
@@ -68,7 +72,10 @@
         <header>
           <div class="divider_line"></div>
           <div class="header_config_container">
-            <p>Configurações</p>
+            <p>
+              <i class="fa-solid fa-gear"></i>
+              Configurações
+            </p>
             <button id="toggle_configs_btn">
               <i
                 class="fa-solid fa-angle-down"
@@ -78,16 +85,29 @@
           </div>
         </header>
 
-        <div id="configs_container">
+        <div id="configs_container" class="configs_container_active">
           <div class="change_theme_wrapper">
             <label class="change_theme_btn_wrapper" for="theme_switcher_btn">
               <input type="checkbox" id="theme_switcher_btn" />
               <i class="icon-moon fa-solid fa-moon"></i>
               <i class="icon-sun fa-solid fa-sun"></i>
             </label>
+            <span>|</span>
+            <p id="current_theme_display"></p>
           </div>
 
-          <p>Agora tem :)</p>
+          <div class="albuns_wrapper">
+            <h2>Álbuns</h2>
+
+            <div class="albuns_grid">
+              <div class="albun">
+                <div class="albun_img">
+                  <i class="fa-brands fa-itunes-note"></i>
+                </div>
+                <p>Default</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
