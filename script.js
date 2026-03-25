@@ -22,21 +22,21 @@ import {
   toggle_configs_btn,
   configs_container,
   loop_btn,
-  default_albun,
+  default_album,
+  default_icon,
+  advice,
 } from "./utils/htmlConstants.js";
 
 import { easter_egg_function } from "./utils/easterEggFunction.js";
 
 // TODO: fazer sistema de volume
 
-// futuramente quero adicionar um sistema para o usuário enviar a música
-// por hora eu vou providenciar as músicas
 let current_music_index = 1;
 let current_music_state = "pause";
 let is_loop_active = false;
 let current_musics = {};
 
-async function fetch_default_albun() {
+export async function fetch_default_album() {
   const res = await fetch("data.json");
 
   if (!res.ok) {
@@ -47,8 +47,15 @@ async function fetch_default_albun() {
   return data;
 }
 
+document.addEventListener("DOMContentLoaded", async () => {
+  if (localStorage.getItem("last_album_selected") === "default") {
+    current_musics = await fetch_default_album();
+    load_music(current_musics[`music${current_music_index}`]);
+  }
+});
+
 export function change_music_state() {
-  if (!MUSIC_AUDIO) return;
+  if (!MUSIC_AUDIO || MUSIC_AUDIO.src === "") return;
 
   if (current_music_state == "pause" || current_music_state == "replay") {
     play_btn.innerHTML = PAUSE_ICON_HTML;
@@ -70,6 +77,8 @@ async function load_music(music_obj) {
   music_id_display.textContent = music_obj.id;
   music_name_display.textContent = music_obj.name;
   composer_display.textContent = music_obj.composer;
+  default_icon.style.display = "none";
+  music_album_cover.style.display = "block";
   music_album_cover.src = music_obj.img_path;
   MUSIC_AUDIO.src = music_obj.audio_path;
   recommended_by_display.textContent = `Recomendado por: ${music_obj.recommended_by}`;
@@ -88,7 +97,7 @@ function get_music_duration() {
 }
 
 function update_progress_bar() {
-  if (!MUSIC_AUDIO.duration) return;
+  if (!MUSIC_AUDIO.duration) progress_bar.style.widows = "0%";
 
   const percentage = (MUSIC_AUDIO.currentTime / MUSIC_AUDIO.duration) * 100;
   progress_bar.style.width = percentage + "%";
@@ -216,12 +225,10 @@ loop_btn.addEventListener("click", () => {
   is_loop_active ? (is_loop_active = false) : (is_loop_active = true);
 });
 
-default_albun.addEventListener("click", async () => {
-  current_musics = await fetch_default_albun();
+default_album.addEventListener("click", async () => {
+  localStorage.setItem("last_album_selected", "default");
+  current_musics = await fetch_default_album();
   load_music(current_musics[`music${current_music_index}`]);
 
-  // simples algoritmo para apagar as mensagens de aviso de manutenção
-  // PROVISÓRIO :)
-  let maintence_texts = document.querySelectorAll(".maintence");
-  maintence_texts.forEach((m) => (m.style.display = "none"));
+  advice.style.display = "none";
 });

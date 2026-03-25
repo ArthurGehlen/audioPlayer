@@ -23,6 +23,7 @@
     <script type="module" src="js/keyboardShortcuts.js" defer></script>
     <script type="module" src="js/handleTheme.js" defer></script>
     <script src="js/createLocalStorageVariables.js" defer></script>
+    <script type="module" src="js/loadMusicStats.js" defer></script>
 
     <title>Music Player :)</title>
   </head>
@@ -30,11 +31,10 @@
     <div id="container">
       <div class="img_wrapper">
         <div id="music_id_display"></div>
-        <img
-          src="assets/music1.jpg"
-          id="music_album_cover"
-          alt="Music Album Cover"
-        />
+        <div class="img_wrapper">
+          <i id="default_icon" class="fa-brands fa-itunes-note"></i>
+          <img src="" id="music_album_cover" style="display: none" />
+        </div>
       </div>
       <div class="music_details">
         <div id="recommended_by_display" class="control_music_btn"></div>
@@ -42,10 +42,10 @@
         <p id="composer_display"></p>
       </div>
       <div class="music_controller_wrapper">
-        <p style="text-align: center" class="maintence">Em manutenção :)</p>
-        <span class="maintence" style="font-size: 0.85rem; text-align: center"
-          >se quiser selecionar músicas abra as configurações e selecione o
-          album "default"</span
+        <span id="advice" style="font-size: 0.85rem; text-align: center"
+          >Nenhum álbum selecionado :( <br />
+          Para selecionar músicas abra as configurações e selecione o album
+          "default"</span
         >
         <div id="progress_bar_wrapper">
           <div id="progress_bar"></div>
@@ -107,8 +107,8 @@
             <h2>Álbuns</h2>
 
             <div class="albuns_grid">
-              <div class="albun" id="default_albun">
-                <div class="albun_img">
+              <div class="album" id="default_album">
+                <div class="album_img">
                   <i class="fa-brands fa-itunes-note"></i>
                 </div>
                 <p>Default</p>

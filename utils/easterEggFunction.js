@@ -1,14 +1,23 @@
 const EASTER_EGG_AUDIO = new Audio();
 
-const easter_egg_audios_path = [
-  "../assets/audios/easter_egg/1.mp3",
-  "../assets/audios/easter_egg/2.mp3",
-  "../assets/audios/easter_egg/3.mp3",
-  "../assets/audios/easter_egg/4.mp3",
-  "../assets/audios/easter_egg/5.mp3",
+// verifica se está rodando no GitHub Pages
+let is_github_pages = window.location.hostname.includes("github.io");
+
+// pega o nome do repositório (primeira parte da URL depois da barra)
+let repo_name = is_github_pages
+  ? `/${window.location.pathname.split("/")[1]}`
+  : "";
+
+// monta e retorna os caminhos dos áudios já corrigidos :)
+let easter_egg_audios_path = [
+  `${repo_name}/assets/audios/easter_egg/1.mp3`,
+  `${repo_name}/assets/audios/easter_egg/2.mp3`,
+  `${repo_name}/assets/audios/easter_egg/3.mp3`,
+  `${repo_name}/assets/audios/easter_egg/4.mp3`,
 ];
 
 let is_active = false; // limitando a ativação do easter egg
+let last_audio_played = "";
 
 export function easter_egg_function() {
   if (is_active) return;
@@ -33,10 +42,22 @@ export function easter_egg_function() {
       easing: "ease-in-out",
     },
   );
-  EASTER_EGG_AUDIO.src =
-    easter_egg_audios_path[
-      Math.floor(Math.random() * easter_egg_audios_path.length)
-    ];
+
+  let new_audio;
+
+  // garante que não repete o último áudio
+  do {
+    new_audio =
+      easter_egg_audios_path[
+        Math.floor(Math.random() * easter_egg_audios_path.length)
+      ];
+  } while (
+    new_audio === last_audio_played &&
+    easter_egg_audios_path.length > 1
+  );
+
+  last_audio_played = new_audio;
+  EASTER_EGG_AUDIO.src = new_audio;
 
   EASTER_EGG_AUDIO.play();
 
