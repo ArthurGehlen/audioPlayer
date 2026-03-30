@@ -89,7 +89,9 @@ img {
 }
 
 #music_id_display {
+  cursor: pointer;
   position: absolute;
+  z-index: 1;
   top: 1rem;
   left: 1rem;
   background-color: var(--color_badge);
@@ -100,6 +102,10 @@ img {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
+}
+
+#music_id_display:hover {
+  opacity: 0.6;
 }
 
 /* ── Music details ────────────────────────────────────────── */
@@ -151,11 +157,6 @@ img {
   justify-content: center;
   flex-direction: column;
   cursor: pointer;
-  transition: height 0.2s ease;
-}
-
-#progress_bar_wrapper:hover {
-  height: 0.45rem;
 }
 
 #progress_bar {
@@ -369,14 +370,14 @@ img {
   right: calc(100% - 1.47rem);
 }
 
-/* ── Álbuns Container ──────────────────────────────────────── */
+/* ── Playlist Container ──────────────────────────────────────── */
 
-.albuns_wrapper {
+.playlists_wrapper {
   margin-top: 2rem;
   overflow: visible;
 }
 
-.albuns_grid {
+.playlist_grid {
   margin-top: 1rem;
   display: flex;
   justify-content: space-between;
@@ -384,7 +385,7 @@ img {
   gap: 1rem;
 }
 
-.album {
+.playlist {
   cursor: pointer;
   width: 6rem;
   display: flex;
@@ -394,11 +395,11 @@ img {
   transition: transform var(--transition_speed);
 }
 
-.album:hover {
+.playlist:hover {
   transform: scale(0.9);
 }
 
-.album_img {
+.playlist_img {
   width: 100%;
   height: 6rem;
   background-color: var(--color_badge);
@@ -408,6 +409,10 @@ img {
   justify-content: center;
 }
 
-.album_img i {
+.playlist_img i {
   font-size: 2rem;
+}
+
+.playlist_selected {
+  border: 1px solid var(--color_knob);
 }

@@ -22,9 +22,10 @@ import {
   toggle_configs_btn,
   configs_container,
   loop_btn,
-  default_album,
+  default_playlist,
   default_icon,
   advice,
+  playlist_img,
 } from "./utils/htmlConstants.js";
 
 import { easter_egg_function } from "./utils/easterEggFunction.js";
@@ -36,7 +37,7 @@ let current_music_state = "pause";
 let is_loop_active = false;
 let current_musics = {};
 
-export async function fetch_default_album() {
+export async function fetch_default_playlist() {
   const res = await fetch("data.json");
 
   if (!res.ok) {
@@ -48,8 +49,8 @@ export async function fetch_default_album() {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
-  if (localStorage.getItem("last_album_selected") === "default") {
-    current_musics = await fetch_default_album();
+  if (localStorage.getItem("last_playlist_selected") === "default") {
+    current_musics = await fetch_default_playlist();
     load_music(current_musics[`music${current_music_index}`]);
   }
 });
@@ -73,7 +74,7 @@ music_id_display.addEventListener("click", () => {
   easter_egg_function();
 });
 
-async function load_music(music_obj) {
+function load_music(music_obj) {
   music_id_display.textContent = music_obj.id;
   music_name_display.textContent = music_obj.name;
   composer_display.textContent = music_obj.composer;
@@ -82,6 +83,28 @@ async function load_music(music_obj) {
   music_album_cover.src = music_obj.img_path;
   MUSIC_AUDIO.src = music_obj.audio_path;
   recommended_by_display.textContent = `Recomendado por: ${music_obj.recommended_by}`;
+}
+
+function deselect_playlist() {
+  localStorage.setItem("last_playlist_selected", "none");
+  current_musics = {};
+
+  music_id_display.textContent = "0";
+  music_name_display.textContent = "Nenhuma playlist selecionada :(";
+  composer_display.textContent = "Compositor não encontrado :(";
+  recommended_by_display.style.display = "none";
+  music_album_cover.style.display = "none";
+  default_icon.style.display = "block";
+
+  MUSIC_AUDIO.pause();
+  MUSIC_AUDIO.src = "";
+  current_music_state = "pause";
+  play_btn.innerHTML = PLAY_ICON_HTML;
+
+  progress_bar.style.width = "0%";
+  if (timestamp) timestamp.textContent = "0:00/0:00";
+
+  advice.style.display = "block";
 }
 
 function get_music_duration() {
@@ -225,10 +248,17 @@ loop_btn.addEventListener("click", () => {
   is_loop_active ? (is_loop_active = false) : (is_loop_active = true);
 });
 
-default_album.addEventListener("click", async () => {
-  localStorage.setItem("last_album_selected", "default");
-  current_musics = await fetch_default_album();
+default_playlist.addEventListener("click", async () => {
+  if (localStorage.getItem("last_playlist_selected") === "default") {
+    deselect_playlist();
+    playlist_img.classList.toggle("playlist_selected");
+    return;
+  }
+
+  localStorage.setItem("last_playlist_selected", "default");
+  current_musics = await fetch_default_playlist();
   load_music(current_musics[`music${current_music_index}`]);
+  playlist_img.classList.toggle("playlist_selected");
 
   advice.style.display = "none";
 });

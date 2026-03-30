@@ -30,7 +30,7 @@
   <body>
     <div id="container">
       <div class="img_wrapper">
-        <div id="music_id_display"></div>
+        <div id="music_id_display">0</div>
         <div class="img_wrapper">
           <i id="default_icon" class="fa-brands fa-itunes-note"></i>
           <img src="" id="music_album_cover" style="display: none" />
@@ -44,7 +44,7 @@
       <div class="music_controller_wrapper">
         <span id="advice" style="font-size: 0.85rem; text-align: center"
           >Nenhum álbum selecionado :( <br />
-          Para selecionar músicas abra as configurações e selecione o album
+          Para selecionar músicas abra as configurações e selecione a playlist
           "default"</span
         >
         <div id="progress_bar_wrapper">
@@ -103,12 +103,12 @@
             <p id="current_theme_display"></p>
           </div>
 
-          <div class="albuns_wrapper">
-            <h2>Álbuns</h2>
+          <div class="playlists_wrapper">
+            <h2>Playlists</h2>
 
-            <div class="albuns_grid">
-              <div class="album" id="default_album">
-                <div class="album_img">
+            <div class="playlist_grid">
+              <div class="playlist" id="default_playlist">
+                <div class="playlist_img">
                   <i class="fa-brands fa-itunes-note"></i>
                 </div>
                 <p>Default</p>
